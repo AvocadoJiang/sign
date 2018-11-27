@@ -5,19 +5,14 @@ import javax.validation.Valid;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.xyt.advice.exceptions.CheckException;
 import com.xyt.entity.User;
-import com.xyt.entity.User.USER_IDENTITY;
 import com.xyt.entity.request.LoginReq;
-import com.xyt.entity.response.AcademyResp;
 import com.xyt.entity.response.UserResp;
-import com.xyt.globle.Constants;
 import com.xyt.service.repository.UserRepository;
 
 import io.swagger.annotations.Api;
