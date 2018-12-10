@@ -24,7 +24,7 @@ public class ClassResp implements Serializable{
 	private String class_name;
 	
 	@ApiModelProperty(value="班级年级")
-	private String grade;
+	private String grade_name;
 	
 	@ApiModelProperty(value="班级所属专业名称")
 	private String major_name;
@@ -36,7 +36,7 @@ public class ClassResp implements Serializable{
 		super();
 		this.class_id = c.getClassID();
 		this.class_name = c.getClassName();
-		this.grade = c.getGrade();
+		this.grade_name = c.getGrade().getGradeName();
 		this.major_name = c.getMajor().getMajorName();
 		this.academy_name = c.getMajor().getAcademy().getAcademyName();
 	}

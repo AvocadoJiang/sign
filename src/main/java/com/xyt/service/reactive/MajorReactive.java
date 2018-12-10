@@ -5,7 +5,9 @@ import org.springframework.stereotype.Repository;
 
 import com.xyt.entity.Major;
 
+import reactor.core.publisher.Flux;
+
 @Repository
 public interface MajorReactive  extends ReactiveMongoRepository<Major,String>{
-	
+	Flux<Major> findByacademyID(String academyID);
 }

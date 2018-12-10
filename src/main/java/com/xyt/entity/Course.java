@@ -21,16 +21,21 @@ public class Course {
 	
 	private String address;
 	
+	private String classID;
 	
 	
 	@DBRef
 	private User teacher;
+	
+	@DBRef
+	private Class c;
 
 	public Course(CourseReq courseReq) {
 		super();
 		this.courseName = courseReq.getCourse_name();
 		this.teacherID = courseReq.getTeacher_id();
 		this.address = courseReq.getAddress();
+		this.classID =courseReq.getClass_id();
 	}
 
 	public Course() {

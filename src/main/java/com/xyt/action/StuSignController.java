@@ -123,6 +123,9 @@ public class StuSignController {
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+	
+	
+	
 	private void StuSignCheck(StuSign stuSign) {
 		
 		if(!userRepository.existsById(stuSign.getStudentID())) {

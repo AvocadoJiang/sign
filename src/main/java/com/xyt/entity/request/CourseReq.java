@@ -21,4 +21,8 @@ public class CourseReq {
 	@ApiModelProperty(value="课程所在教室")
 	private String address;
 	
+	@ApiModelProperty(value="课程所属班级的外键,class的class_id")
+	@NotBlank
+	private String class_id;
+	
 }

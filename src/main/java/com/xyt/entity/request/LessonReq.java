@@ -20,12 +20,12 @@ public class LessonReq {
 	private String course_id;
 	
 	@ApiModelProperty(value="课时开始时间,时间戳格式字符串",example="2018-10-7 8:00")
-	@DateTimeFormat(pattern="yyyy-MM-dd") 
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm") 
 	@NotNull
 	private Date start_time;
 	
 	@ApiModelProperty(value="课时结束时间,时间戳格式字符串",example="2018-10-7 8:45")
-	@DateTimeFormat(pattern="yyyy-MM-dd")  
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm")  
 	@NotNull
 	private Date end_time;
 }

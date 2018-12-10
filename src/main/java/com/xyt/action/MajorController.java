@@ -139,6 +139,18 @@ public class MajorController {
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+	@ApiOperation(value = "查找学院相关专业" ,  notes="根据academy_id查找专业")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path",name = "academy_id", value = "被操作的目标主键,直接放入地址中,替换{academy_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = MajorResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/academy_id/{academy_id}")
+	public  Flux<MajorResp> findByacademyID(@PathVariable("academy_id")String academy_id){
+		return majorReactive.findByacademyID(academy_id)
+				.map(entity->new MajorResp(entity));
+	}
+	
 	private void MajorCheck(Major major) {
 		
 		if(!academyRepository.existsById(major.getAcademyID())) {

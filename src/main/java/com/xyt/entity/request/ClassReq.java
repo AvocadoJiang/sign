@@ -14,13 +14,13 @@ public class ClassReq {
 	@NotBlank
 	private String class_name;
 	
-	@ApiModelProperty(value="班级年级",example="2015")
-	@NotBlank
-	private String grade;
-	
 	@ApiModelProperty(value="班级所属专业外键,major的major_id")
 	@NotBlank
 	private String major_id;
+	
+	@ApiModelProperty(value="班级所属年级外键,grade的grade_id")
+	@NotBlank
+	private String grade_id;
 	
 	
 }

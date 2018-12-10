@@ -23,6 +23,7 @@ import com.xyt.entity.response.CourseResp;
 import com.xyt.advice.exceptions.CheckException;
 import com.xyt.globle.Constants;
 import com.xyt.service.reactive.CourseReactive;
+import com.xyt.service.repository.ClassRepository;
 import com.xyt.service.repository.UserRepository;
 
 import io.swagger.annotations.Api;
@@ -41,14 +42,16 @@ import reactor.core.publisher.Mono;
 public class CourseController {
 	private CourseReactive courseReactive;
 	private UserRepository userRepository;
+	private ClassRepository classRepository;
 	/**
 	 * 构造函数 构造器注入
 	 * @param academyRepository
 	 */
-	public CourseController(CourseReactive courseReactive, UserRepository userRepository) {
+	public CourseController(CourseReactive courseReactive, UserRepository userRepository,ClassRepository classRepository) {
 		super();
 		this.courseReactive = courseReactive;
 		this.userRepository = userRepository;
+		this.classRepository = classRepository;
 	}
 	
 	@ApiOperation(value = "获取全部课程" ,  notes="获取全部课程,以数组形式一次性返回数据")
@@ -146,6 +149,10 @@ public class CourseController {
 			throw new CheckException("teacherID",Constants.REFERENTIAL_INTEGRITY_CHECK_FAILED);
 		}
 		course.setTeacher(userRepository.findById(course.getTeacherID()).get());
+		if(!classRepository.existsById(course.getClassID())){
+			throw new CheckException("classID",Constants.REFERENTIAL_INTEGRITY_CHECK_FAILED);
+		}
+		course.setC(classRepository.findById(course.getClassID()).get());
 		
 	}
 	

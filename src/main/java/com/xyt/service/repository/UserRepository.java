@@ -7,4 +7,5 @@ import com.xyt.entity.User;
 @Repository
 public interface UserRepository extends MongoRepository<User, String> {
 	User findByUserNumber(String userNumber);
+	int countByClassID(String classID);
 }

@@ -1,6 +1,5 @@
 package com.xyt.action;
 
-import java.util.stream.Stream;
 
 import javax.validation.Valid;
 
@@ -24,6 +23,7 @@ import com.xyt.advice.exceptions.CheckException;
 import com.xyt.globle.Constants;
 import com.xyt.service.AipFaceService;
 import com.xyt.service.reactive.ClassReactive;
+import com.xyt.service.repository.GradeRepository;
 import com.xyt.service.repository.MajorRepository;
 
 import io.swagger.annotations.Api;
@@ -42,16 +42,18 @@ import reactor.core.publisher.Mono;
 public class ClassController {
 	private ClassReactive classReactive ;
 	private MajorRepository majorRepository ;
+	private GradeRepository gradeRepository ;
 	private AipFaceService aipFaceService;
 	/**
 	 * 构造函数 构造器注入
 	 * @param academyRepository
 	 */
-	public ClassController(ClassReactive classReactive,MajorRepository majorRepository,AipFaceService aipFaceService) {
+	public ClassController(ClassReactive classReactive,MajorRepository majorRepository,AipFaceService aipFaceService,GradeRepository gradeRepository) {
 		super();
 		this.classReactive = classReactive;
 		this.majorRepository = majorRepository;
 		this.aipFaceService = aipFaceService;
+		this.gradeRepository = gradeRepository;
 	}
 	
 	@ApiOperation(value = "获取全部班级" ,  notes="获取全部班级,以数组形式一次性返回数据")
@@ -121,8 +123,8 @@ public class ClassController {
 					if(StringUtils.isNotBlank(c.getClassName())) {
 						entity.setClassName(c.getClassName());
 					}
-					if(StringUtils.isNotBlank(c.getGrade())) {
-						entity.setGrade(c.getGrade());
+					if(StringUtils.isNotBlank(c.getGradeID())) {
+						entity.setGradeID(c.getGradeID());
 					}
 					if(StringUtils.isNotBlank(c.getMajorID())) {
 						entity.setMajorID(c.getMajorID());
@@ -148,6 +150,17 @@ public class ClassController {
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
 	}
 	
+	@ApiOperation(value = "根据专业ID查找班级" ,  notes="根据用户major_id查找班级")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "major_id", value = "被操作的目标主键,直接放入地址中,替换{major_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = ClassResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/major_id/{major_id}")
+	public  Flux<ClassResp> findBymajorID(@PathVariable("major_id")String major_id){
+		return classReactive.findBymajorID(major_id)
+				.map(entity->new ClassResp(entity));
+	}
 	
 	private void ClassCheck(Class c) {
 		
@@ -155,12 +168,16 @@ public class ClassController {
 		if(!majorRepository.existsById(c.getMajorID())) {
 			throw new CheckException("majorID",Constants.REFERENTIAL_INTEGRITY_CHECK_FAILED);
 		}
-		
-		//grade
-		if(Stream.of(Constants.VALID_GRADE).noneMatch(grade->grade.equalsIgnoreCase(c.getGrade()))) {
-			throw new CheckException("grade",Constants.REFERENTIAL_INTEGRITY_CHECK_FAILED);	
-		}
 		c.setMajor(majorRepository.findById(c.getMajorID()).get());
+		//grade
+//		if(Stream.of(Constants.VALID_GRADE).noneMatch(grade->grade.equalsIgnoreCase(c.getGrade()))) {
+//			throw new CheckException("grade",Constants.REFERENTIAL_INTEGRITY_CHECK_FAILED);	
+//		}
+		if(!gradeRepository.existsById(c.getGradeID())) {
+			throw new CheckException("gradeID",Constants.REFERENTIAL_INTEGRITY_CHECK_FAILED);
+		}
+		c.setGrade(gradeRepository.findById(c.getGradeID()).get());
+		
 	}
 	
 }

@@ -19,4 +19,8 @@ public class StuSignReq {
 	@ApiModelProperty(value="签到所属课时的主键,lesson的lesson_id")
 	@NotBlank
 	private String lesson_id;
+	
+	@ApiModelProperty(value="签到状态:NORMAL,LEAVE_EARLY,ASK_FOR_LEAVE",example="NORMAL")
+	@NotBlank
+	private String status;
 }

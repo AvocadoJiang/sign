@@ -40,6 +40,8 @@ import io.swagger.annotations.ApiResponses;
 import com.xyt.entity.User;
 import com.xyt.entity.User.USER_IDENTITY;
 import com.xyt.entity.face.form.UserFace;
+import com.xyt.entity.request.StudentReq;
+import com.xyt.entity.request.TeacherReq;
 import com.xyt.entity.request.UserReq;
 import com.xyt.entity.response.UserResp;
 
@@ -104,6 +106,32 @@ public class UserController {
         @ApiResponse(code = 405, message = "权限不足")})
 	@PostMapping("/add")
 	public Mono<UserResp> add(@ApiParam(value="需要更新的课时信息,以json格式放入Request Body中",required=true) @Valid @RequestBody UserReq userReq) {
+		User user = new User(userReq);
+		//用户自定义完整性进行校验
+		UserCheck(user);
+		return userReactive.save(user).map(entity->new UserResp(entity));
+	}
+	
+	@ApiOperation(value = "新增学生用户" ,  notes="上传必要的用户信息来创建一个新的用户")
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = UserResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@PostMapping("/addStudent")
+	public Mono<UserResp> addStudent(@ApiParam(value="需要更新的课时信息,以json格式放入Request Body中",required=true) @Valid @RequestBody StudentReq userReq) {
+		User user = new User(userReq);
+		//用户自定义完整性进行校验
+		UserCheck(user);
+		return userReactive.save(user).map(entity->new UserResp(entity));
+	}
+	
+	@ApiOperation(value = "新增教师用户" ,  notes="上传必要的用户信息来创建一个新的用户")
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = UserResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@PostMapping("/addTeacher")
+	public Mono<UserResp> addTeqcher(@ApiParam(value="需要更新的课时信息,以json格式放入Request Body中",required=true) @Valid @RequestBody TeacherReq userReq) {
 		User user = new User(userReq);
 		//用户自定义完整性进行校验
 		UserCheck(user);

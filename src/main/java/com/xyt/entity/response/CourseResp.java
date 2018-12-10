@@ -28,6 +28,9 @@ public class CourseResp implements Serializable{
 	@ApiModelProperty(value="课程所属学院的名称")
 	private String academy_name;
 	
+	@ApiModelProperty(value="课程所属班级的名称")
+	private String class_name;
+	
 	@ApiModelProperty(value="课程所在教室")
 	private String address;
 
@@ -38,6 +41,7 @@ public class CourseResp implements Serializable{
 		this.teacher_name = course.getTeacher().getUserName();
 		this.academy_name = course.getTeacher().getAcademy().getAcademyName();
 		this.address = course.getAddress();
+		this.class_name = course.getC().getClassName();
 	}
 	
 	

@@ -17,18 +17,21 @@ public class Class {
 	private String classID;
 	
 	private String className;
-
-	private String grade;
 	
 	private String majorID;
 	
+	private String gradeID;
+	
 	@DBRef
 	private Major major;
+	
+	@DBRef
+	private Grade grade;
 
 	public Class(ClassReq classReq) {
 		super();
 		this.className = classReq.getClass_name();
-		this.grade = classReq.getGrade();
+		this.gradeID = classReq.getGrade_id();
 		this.majorID = classReq.getMajor_id();
 	}
 

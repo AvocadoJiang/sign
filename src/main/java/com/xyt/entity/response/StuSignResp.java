@@ -4,6 +4,8 @@ package com.xyt.entity.response;
 
 import java.io.Serializable;
 
+import javax.validation.constraints.NotBlank;
+
 import com.xyt.entity.StuSign;
 
 import io.swagger.annotations.ApiModel;
@@ -30,6 +32,9 @@ public class StuSignResp implements Serializable{
 	
 	@ApiModelProperty(value="学生签到所属课程名称")
 	private String course_name;
+	
+	@ApiModelProperty(value="签到状态:NORMAL,LEAVE_EARLY,ASK_FOR_LEAVE",example="NORMAL")
+	private String status;
 
 	public StuSignResp(StuSign stuSign) {
 		super();
@@ -38,6 +43,7 @@ public class StuSignResp implements Serializable{
 		this.lesson_id = stuSign.getLessonID();
 		this.student_name = stuSign.getStudent().getUserName();
 		this.course_name = stuSign.getLesson().getCourse().getCourseName();
+		this.status = stuSign.getStatus();
 	}
 	
 	
