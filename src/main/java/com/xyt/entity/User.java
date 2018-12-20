@@ -60,6 +60,8 @@ public class User {
 	
 	private String political_status;
 	
+	private String isdelete = "false";
+	
 	@DBRef
 	private Class c;
 	
@@ -109,6 +111,7 @@ public class User {
 		this.ethnic = userReq.getEthnic();
 		this.hometown = userReq.getHometown();
 		this.political_status = userReq.getPolitical_status();
+		this.isdelete = userReq.getIsdelete();
 		
 		this.academyID = userReq.getAcademy_id();
 		this.title = userReq.getTitle();

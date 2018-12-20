@@ -9,7 +9,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value="academy",description="学院对象")
+@ApiModel(value="academyResp",description="学院对象")
 @Data
 public class AcademyResp implements Serializable{
 

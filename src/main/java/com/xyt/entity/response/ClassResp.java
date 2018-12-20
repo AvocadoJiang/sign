@@ -11,7 +11,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
-@ApiModel(value="class",description="班级对象")
+@ApiModel(value="classResp",description="班级对象")
 @Data
 public class ClassResp implements Serializable{
 	

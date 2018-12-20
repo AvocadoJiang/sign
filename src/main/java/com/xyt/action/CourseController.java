@@ -124,6 +124,9 @@ public class CourseController {
 					if(StringUtils.isNotBlank(course.getAddress())) {
 						entity.setAddress(course.getAddress());
 					}
+					if(StringUtils.isNotBlank(course.getRemark())) {
+						entity.setRemark(course.getRemark());
+					}
 					CourseCheck(entity);
 					return courseReactive.save(entity);
 				})
@@ -142,6 +145,18 @@ public class CourseController {
 		return courseReactive.findById(course_id)
 				.map(entity->new ResponseEntity<CourseResp>(new CourseResp(entity),HttpStatus.OK))
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+	
+	@ApiOperation(value = "根据教师主键查找课程" ,  notes="根据用户teacher_id查找课程")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "teacher_id", value = "被操作的目标主键,直接放入地址中,替换{teacher_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = CourseResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/teacher_id/{teacher_id}")
+	public  Flux<CourseResp> findByteacherID(@PathVariable("teacher_id")String teacher_id){
+		return courseReactive.findByteacherID(teacher_id)
+				.map(entity->new CourseResp(entity));
 	}
 	
 	private void CourseCheck(Course course) {

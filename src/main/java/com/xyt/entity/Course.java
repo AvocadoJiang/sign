@@ -21,6 +21,8 @@ public class Course {
 	
 	private String address;
 	
+	private String remark;
+	
 	private String classID;
 	
 	
@@ -35,6 +37,7 @@ public class Course {
 		this.courseName = courseReq.getCourse_name();
 		this.teacherID = courseReq.getTeacher_id();
 		this.address = courseReq.getAddress();
+		this.remark = courseReq.getRemark();
 		this.classID =courseReq.getClass_id();
 	}
 

@@ -25,4 +25,7 @@ public class CourseReq {
 	@NotBlank
 	private String class_id;
 	
+	@ApiModelProperty(value="课程描述信息",example="周一下午13:00~13:45,周三上午8:00~8:45")
+	private String remark;
+	
 }

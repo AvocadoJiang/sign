@@ -179,6 +179,12 @@ public class UserController {
 					if(StringUtils.isNotBlank(user.getImage())) {
 						entity.setImage(user.getImage());
 					}
+					if(StringUtils.isNotBlank(user.getImage())) {
+						entity.setImage(user.getImage());
+					}
+					if(StringUtils.isNotBlank(user.getIsdelete())&&(user.getIsdelete().equals("true")||user.getIsdelete().equals("false"))) {
+						entity.setIsdelete(user.getIsdelete());
+					}
 					
 					UserCheck(entity);
 					return userReactive.save(entity);
@@ -198,6 +204,45 @@ public class UserController {
 		return userReactive.findById(user_id)
 				.map(entity->new ResponseEntity<UserResp>(new UserResp(entity),HttpStatus.OK))
 				.defaultIfEmpty(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+	}
+	
+	@ApiOperation(value = "根据学院查找学生" ,  notes="根据学院查找学生")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path",name = "academy_id", value = "被操作的目标主键,直接放入地址中,替换{academy_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = UserResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/student/academy_id/{academy_id}")
+	public  Flux<UserResp> findStudentByacademyID(@PathVariable("academy_id")String academy_id){
+		return userReactive.findByIdentity(User.USER_IDENTITY.STUDENT.name())
+				.filter(entity->entity.getC().getMajor().getAcademyID().equals(academy_id))
+				.map(entity->new UserResp(entity));
+	}
+	
+	@ApiOperation(value = "根据班级查找学生" ,  notes="根据学院查找学生")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path",name = "class_id", value = "被操作的目标主键,直接放入地址中,替换{class_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = UserResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/student/class_id/{class_id}")
+	public  Flux<UserResp> findStudentByclassID(@PathVariable("class_id")String class_id){
+		return userReactive.findByIdentity(User.USER_IDENTITY.STUDENT.name())
+				.filter(entity->entity.getClassID().equals(class_id))
+				.map(entity->new UserResp(entity));
+	}
+	
+	@ApiOperation(value = "根据学院查找教师" ,  notes="根据学院查找教师")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path",name = "academy_id", value = "被操作的目标主键,直接放入地址中,替换{academy_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = UserResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/teacher/academy_id/{academy_id}")
+	public  Flux<UserResp> findTeacherByacademyID(@PathVariable("academy_id")String academy_id){
+		return userReactive.findByIdentity(User.USER_IDENTITY.TEACHER.name())
+				.filter(entity->entity.getAcademyID().equals(academy_id))
+				.map(entity->new UserResp(entity));
 	}
 	
 	private void UserCheck(@Valid User user) {

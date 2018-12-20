@@ -73,7 +73,9 @@ public class UserResp implements Serializable{
 	@ApiModelProperty(value="政治面貌")
 	private String political_status;
 	
-
+	@ApiModelProperty(value="状态")
+	private String isdelete;
+	
 	public UserResp(User user) {
 		super();
 		this.user_id = user.getUserID();
@@ -81,6 +83,7 @@ public class UserResp implements Serializable{
 		this.user_name = user.getUserName();
 		this.identity = user.getIdentity();
 		this.image = user.getImage();
+		
 		this.phone = user.getPhone();
 		if(identity.equalsIgnoreCase(User.USER_IDENTITY.STUDENT.name())) {
 			this.class_name = user.getC().getClassName();
@@ -88,6 +91,7 @@ public class UserResp implements Serializable{
 			this.academy_id = user.getC().getMajor().getAcademy().getAcademyID();
 		}else if(identity.equalsIgnoreCase(User.USER_IDENTITY.TEACHER.name())||identity.equalsIgnoreCase(User.USER_IDENTITY.ADMIN.name())) {
 			this.academy_name = user.getAcademy().getAcademyName();
+			this.academy_id = user.getAcademy().getAcademyID();
 			this.class_name = "";
 		}else if(identity.equalsIgnoreCase(User.USER_IDENTITY.ROOT.name())) {
 			this.academy_name = "";
@@ -104,7 +108,8 @@ public class UserResp implements Serializable{
 		this.ethnic = user.getEthnic();
 		this.hometown = user.getHometown();
 		this.political_status = user.getPolitical_status();
-		
+		this.isdelete = user.getIsdelete();
+		 
 	}
 	
 	public UserResp() {

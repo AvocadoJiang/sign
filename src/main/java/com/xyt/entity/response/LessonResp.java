@@ -32,6 +32,9 @@ public class LessonResp implements Serializable{
 	
 	@ApiModelProperty(value="课程所在教室")
 	private String address;
+	
+	@ApiModelProperty(value="课时所属班级")
+	private String class_id;
 
 	public LessonResp(Lesson lesson) {
 		super();
@@ -41,6 +44,7 @@ public class LessonResp implements Serializable{
 		this.start_time = lesson.getStartTime();
 		this.end_time = lesson.getEndTime();
 		this.address = lesson.getCourse().getAddress();
+		this.class_id = lesson.getCourse().getClassID();
 	}
 	
 	

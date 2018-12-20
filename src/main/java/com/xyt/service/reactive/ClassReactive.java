@@ -9,4 +9,5 @@ import reactor.core.publisher.Flux;
 @Repository
 public interface ClassReactive  extends ReactiveMongoRepository<Class,String>{
 	Flux<Class> findBymajorID(String majorID);
+	Flux<Class> findBygradeID(String gradeID);
 }

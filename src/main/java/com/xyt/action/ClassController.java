@@ -162,6 +162,21 @@ public class ClassController {
 				.map(entity->new ClassResp(entity));
 	}
 	
+	@ApiOperation(value = "根据年级ID查找班级" ,  notes="根据用户grade_id查找班级")
+	@ApiImplicitParams({ @ApiImplicitParam(paramType = "path", name = "grade_id", value = "被操作的目标主键,直接放入地址中,替换{grade_id}", required = true) })
+	@ApiResponses({@ApiResponse(code = 200, message = "操作成功",response = ClassResp.class),
+        @ApiResponse(code = 500, message = "服务器内部异常"),
+        @ApiResponse(code = 400, message = "客户端请求的语法错误,服务器无法理解"),
+        @ApiResponse(code = 405, message = "权限不足")})
+	@GetMapping("/grade_id/{grade_id}")
+	public  Flux<ClassResp> findBygradeID(@PathVariable("grade_id")String grade_id){
+		return classReactive.findBygradeID(grade_id)
+				.map(entity->new ClassResp(entity));
+	}
+	
+	
+	
+	
 	private void ClassCheck(Class c) {
 		
 		//majorID
